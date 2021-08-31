@@ -1,0 +1,33 @@
+[{
+    "code": "EKWA_WELCOME",
+    "discountValue": 2,
+    "endDate": "2019-10-04"
+}, {
+    "code": "ELEC_N_WOOD",
+    "discountValue": 1.5,
+    "endDate": "2022-06-20"
+}, {
+    "code": "ALL_2000",
+    "discountValue": 2.75,
+    "endDate": "2023-03-05"
+}, {
+    "code": "GAZZZZZZZZY",
+    "discountValue": 2.25,
+    "endDate": "2018-08-02"
+}, {
+    "code": "ELEC_IS_THE_NEW_GAS",
+    "discountValue": 3.5,
+    "endDate": "2022-04-13"
+}, {
+    "code": "BUZZ",
+    "discountValue": 2.75,
+    "endDate": "2022-02-02"
+}, {
+    "code": "WOODY",
+    "discountValue": 1.75,
+    "endDate": "2022-05-29"
+}, {
+    "code": "WOODY_WOODPECKER",
+    "discountValue": 1.15,
+    "endDate": "2017-04-07"
+}]

@@ -1,0 +1,31 @@
+[{
+    "offerType": "GAS",
+    "offerName": "EKWAG2000",
+    "offerDescription": "Une offre incroyable",
+    "validPromoCodeList": ["EKWA_WELCOME", "ALL_2000"]
+}, {
+    "offerType": "GAS",
+    "offerName": "EKWAG3000",
+    "offerDescription": "Une offre croustillante",
+    "validPromoCodeList": ["EKWA_WELCOME", "GAZZZZZZZZY"]
+}, {
+    "offerType": "ELECTRICITY",
+    "offerName": "EKWAE2000",
+    "offerDescription": "Une offre du tonnerre",
+    "validPromoCodeList": ["EKWA_WELCOME", "ALL_2000", "ELEC_IS_THE_NEW_GAS"]
+}, {
+    "offerType": "ELECTRICITY",
+    "offerName": "EKWAE3000",
+    "offerDescription": "Pile l'offre qu'il vous faut",
+    "validPromoCodeList": ["EKWA_WELCOME", "ELEC_IS_THE_NEW_GAS", "BUZZ", "ELEC_N_WOOD"]
+}, {
+    "offerType": "WOOD",
+    "offerName": "EKWAW2000",
+    "offerDescription": "Une offre du envoie du bois",
+    "validPromoCodeList": ["EKWA_WELCOME", "ALL_2000", "WOODY", "WOODY_WOODPECKER"]
+}, {
+    "offerType": "WOOD",
+    "offerName": "EKWAW3000",
+    "offerDescription": "Une offre souscrite = un arbre planté",
+    "validPromoCodeList": ["EKWA_WELCOME", "WOODY", "WOODY_WOODPECKER", "ELEC_N_WOOD"]
+}]
