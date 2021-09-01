@@ -7,12 +7,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CliViewModel implements ViewModel
 {
-    public function __construct(
-        private \Closure $handler
-    ) {
+    private \Closure $handler;
+
+    public function __construct(\Closure $handler)
+    {
+        $this->handler = $handler;
     }
 
-    public function handle(OutputInterface $output): mixed
+    /**
+     * @return int
+     */
+    public function handle(OutputInterface $output)
     {
         return call_user_func($this->handler, $output);
     }

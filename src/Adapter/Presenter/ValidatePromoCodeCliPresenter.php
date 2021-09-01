@@ -15,9 +15,11 @@ class ValidatePromoCodeCliPresenter implements ValidatePromoCodeOutputPort
     public function valid(PromoCodeAggregate $promoCode): ViewModel
     {
         return new CliViewModel(function (OutputInterface $output) use ($promoCode): int {
+            $expires = $promoCode->getRoot()->getExpirationTime();
+
             $output->writeln((string) json_encode([
                 'promoCode' => $promoCode->getRoot()->getName(),
-                'endDate' => $promoCode->getRoot()->getExpirationTime()?->format('Y-m-d'),
+                'endDate' => $expires ? $expires->format('Y-m-d') : null,
                 'discountValue' => $promoCode->getRoot()->getDiscountValue(),
                 'compatibleOfferList' => array_map(fn(OfferEntity $offer) => [
                     'name' => $offer->getName(),

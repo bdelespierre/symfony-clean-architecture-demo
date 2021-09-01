@@ -10,10 +10,15 @@ use Infrastructure\Service\Api\EkwaTestClient;
 
 class PromoCodeRepository implements PromoCodeRepositoryContract
 {
+    private EkwaTestClient $client;
+    private OfferRepositoryContract $offers;
+
     public function __construct(
-        private EkwaTestClient $client,
-        private OfferRepositoryContract $offers,
+        EkwaTestClient $client,
+        OfferRepositoryContract $offers
     ) {
+        $this->client = $client;
+        $this->offers = $offers;
     }
 
     /**

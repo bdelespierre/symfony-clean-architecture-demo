@@ -10,10 +10,15 @@ use Domain\UseCase\ValidatePromoCode\ValidatePromoCodeOutputPort;
 
 class ValidatePromoCodeInteractor implements ValidatePromoCodeInputPort
 {
+    private ValidatePromoCodeOutputPort $output;
+    private PromoCodeRepository $promoCodes;
+
     public function __construct(
-        private ValidatePromoCodeOutputPort $output,
-        private PromoCodeRepository $promoCodes,
+        ValidatePromoCodeOutputPort $output,
+        PromoCodeRepository $promoCodes
     ) {
+        $this->output = $output;
+        $this->promoCodes = $promoCodes;
     }
 
     public function validate(string $code): ViewModel

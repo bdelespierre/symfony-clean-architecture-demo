@@ -12,24 +12,31 @@ class EkwaTestClient
      * @param string $baseUri
      * @param array<mixed> $options
      */
-    public function __construct(
-        string $baseUri,
-        array $options = ['timeout' => 2.0],
-    ) {
+    public function __construct(string $baseUri, array $options = ['timeout' => 2.0])
+    {
         $this->client = new Guzzle(['base_uri' => $baseUri] + $options);
     }
 
-    public function offerList(): mixed
+    /**
+     * @return array<\stdClass>
+     */
+    public function offerList()
     {
         return $this->getJson('offerList');
     }
 
-    public function promoCodeList(): mixed
+    /**
+     * @return array<\stdClass>
+     */
+    public function promoCodeList()
     {
         return $this->getJson('promoCodeList');
     }
 
-    private function getJson(string $endpoint): mixed
+    /**
+     * @return mixed
+     */
+    private function getJson(string $endpoint)
     {
         $response = $this->client->request('GET', $endpoint);
 

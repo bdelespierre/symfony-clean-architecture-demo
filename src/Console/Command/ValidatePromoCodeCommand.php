@@ -13,10 +13,13 @@ class ValidatePromoCodeCommand extends Command
 {
     protected static $defaultName = 'promo-code:validate';
 
-    public function __construct(
-        private ValidatePromoCodeInteractor $interactor
-    ) {
+    private ValidatePromoCodeInteractor $interactor;
+
+    public function __construct(ValidatePromoCodeInteractor $interactor)
+    {
         parent::__construct();
+
+        $this->interactor = $interactor;
     }
 
     protected function configure(): void

@@ -1,7 +1,14 @@
 <?php
 
 if (! function_exists('tap')) {
-    function tap(mixed $value, callable $callback): mixed
+    /**
+     * Executes $callback, passing it $value, then return $value.
+     *
+     * @param  mixed  $value
+     * @param  callable  $callback
+     * @return mixed
+     */
+    function tap($value, callable $callback)
     {
         $callback($value);
 

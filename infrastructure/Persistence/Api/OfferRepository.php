@@ -10,9 +10,11 @@ use Infrastructure\Service\Api\EkwaTestClient;
 
 class OfferRepository implements OfferRepositoryContract
 {
-    public function __construct(
-        private EkwaTestClient $client,
-    ) {
+    private EkwaTestClient $client;
+
+    public function __construct(EkwaTestClient $client)
+    {
+        $this->client = $client;
     }
 
     /**
