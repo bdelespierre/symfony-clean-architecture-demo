@@ -1,11 +1,9 @@
-qa: phplint phpcs phpstan
-
-todolist:
-	git grep -C2 -p -E '[@]todo'
 
 # -----------------------------------------------------------------------------
 # Code Quality
 # -----------------------------------------------------------------------------
+
+qa: phplint phpcs phpstan
 
 QA_PATHS = config/ domain/ infrastructure/ src/
 QA_STANDARD = psr12
@@ -20,7 +18,10 @@ phpcs:
 	vendor/bin/phpcs --standard=$(QA_STANDARD) $(QA_PATHS)
 
 phpcbf:
-	vendor/bin/phpcbf --stanrdard=$(QA_STANDARD) $(QA_PATHS)
+	vendor/bin/phpcbf --standard=$(QA_STANDARD) $(QA_PATHS)
+
+todolist:
+	git grep -C2 -p -E '[@]todo'
 
 # -----------------------------------------------------------------------------
 # Tests
