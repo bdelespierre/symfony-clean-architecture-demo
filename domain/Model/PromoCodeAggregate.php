@@ -26,7 +26,7 @@ class PromoCodeAggregate
     /**
      * @return array<\Domain\Model\OfferEntity>
      */
-    public function getComptabibleOffers(): array
+    public function getCompatibleOffers(): array
     {
         return $this->compatibleOffers;
     }

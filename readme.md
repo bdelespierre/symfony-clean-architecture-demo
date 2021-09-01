@@ -4,7 +4,7 @@
 
 Requirements
 
-- PHP8
+- PHP7.4
 - Composer
 - ext-json
 

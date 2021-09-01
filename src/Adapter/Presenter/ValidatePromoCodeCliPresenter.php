@@ -24,7 +24,7 @@ class ValidatePromoCodeCliPresenter implements ValidatePromoCodeOutputPort
                 'compatibleOfferList' => array_map(fn(OfferEntity $offer) => [
                     'name' => $offer->getName(),
                     'type' => (string) $offer->getType(),
-                ], $promoCode->getComptabibleOffers())
+                ], $promoCode->getCompatibleOffers())
             ]));
 
             return Command::SUCCESS;
