@@ -19,6 +19,23 @@ final class OfferTypeValueObject
         return $this->value == $type->value;
     }
 
+    public static function fromString(string $value): self
+    {
+        switch (strtoupper($value)) {
+            case "ELECTRICITY":
+                return self::electricity();
+
+            case "GAS":
+                return self::gas();
+
+            case "WOOD":
+                return self::wood();
+
+            default:
+                throw new \DomainException("Invalid offer type '{$value}'");
+        }
+    }
+
     public static function electricity(): self
     {
         return new self("ELECTRICITY");

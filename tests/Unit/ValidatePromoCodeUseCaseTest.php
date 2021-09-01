@@ -10,15 +10,17 @@ use Domain\Model\PromoCodeEntity;
 use Domain\UseCase\ValidatePromoCode\ValidatePromoCodeInteractor;
 use Domain\UseCase\ValidatePromoCode\ValidatePromoCodeOutputPort;
 use Mockery;
-use PHPUnit\Framework\TestCase;
+use App\Tests\TestCase;
 
 class ValidatePromoCodeUseCaseTest extends TestCase
 {
     /**
      * @dataProvider promoCodeValidationDataProvider
      */
-    public function testValidPromoCode(PromoCodeAggregate $promoCode, string $method)
+    public function testInteractor($attributes, string $method)
     {
+        $promoCode = $this->mockPromoCodeAggregate($attributes);
+
         $repository = Mockery::mock(PromoCodeRepository::class);
         $repository->shouldReceive('getPromoCodeFromCode')
             ->with($promoCode->getRoot()->getName())
@@ -38,78 +40,43 @@ class ValidatePromoCodeUseCaseTest extends TestCase
         $this->assertSame($promoCode, $presented);
     }
 
+    public function testInteractorPromoCodeNotFound()
+    {
+        $repository = Mockery::mock(PromoCodeRepository::class);
+        $repository->shouldReceive('getPromoCodeFromCode')
+            ->andReturn(null);
+
+        $presenter = Mockery::mock(ValidatePromoCodeOutputPort::class);
+        $presenter->shouldReceive('notFound')
+            ->with(Mockery::capture($presented));
+
+        $interactor = new ValidatePromoCodeInteractor(
+            $presenter,
+            $repository,
+        );
+
+        $interactor->validate('promo-code-123');
+
+        $this->assertSame('promo-code-123', $presented);
+    }
+
     public function promoCodeValidationDataProvider()
     {
         return [
             'valid promo code' => [
-                'promoCode' => $this->mockPromoCodeAggregate([
-                    'name' => 'promo-code-123',
-                    'expiresAt' => 'tomorrow',
-                    'discount' => 1.15,
-                    'offers' => [[
-                        'name' => 'offer-1',
-                        'description' => 'Offer 1 description.',
-                        'type' => OfferTypeValueObject::electricity(),
-                    ],[
-                        'name' => 'offer-2',
-                        'description' => 'Offer 2 description.',
-                        'type' => OfferTypeValueObject::gas(),
-                    ]]
-                ]),
+                'attributes' => ['expiresAt' => 'tomorrow'],
                 'method' => 'valid',
             ],
 
             'expired promo code' => [
-                'promoCode' => $this->mockPromoCodeAggregate([
-                    'name' => 'promo-code-123',
-                    'expiresAt' => 'yesterday',
-                    'discount' => 1.15,
-                    'offers' => [[
-                        'name' => 'offer-1',
-                        'description' => 'Offer 1 description.',
-                        'type' => OfferTypeValueObject::electricity(),
-                    ],[
-                        'name' => 'offer-2',
-                        'description' => 'Offer 2 description.',
-                        'type' => OfferTypeValueObject::gas(),
-                    ]]
-                ]),
-                'method' => 'invalid',
+                'attributes' => ['expiresAt' => 'yesterday'],
+                'method' => 'expired',
             ],
 
             'promo code with no offers' => [
-                'promoCode' => $this->mockPromoCodeAggregate([
-                    'name' => 'promo-code-123',
-                    'expiresAt' => 'tomorrow',
-                    'discount' => 1.15,
-                    'offers' => []
-                ]),
-                'method' => 'invalid',
+                'attributes' => ['expiresAt' => 'tomorrow', 'offers' => []],
+                'method' => 'noCompatibleOffer',
             ],
         ];
-    }
-
-    private function mockPromoCodeAggregate(array $attributes)
-    {
-        return tap(new PromoCodeAggregate(), function ($aggregate) use ($attributes) {
-            $aggregate->setRoot(tap(new PromoCodeEntity(), function ($promoCode) use ($attributes) {
-                $promoCode->setName($attributes['name']);
-                $promoCode->setExpirationTime(new \DateTimeImmutable($attributes['expiresAt']));
-                $promoCode->setDiscountValue($attributes['discount']);
-            }));
-
-            $aggregate->setCompatibleOffers(
-                array_map([$this, 'mockOfferEntity'], $attributes['offers'])
-            );
-        });
-    }
-
-    private function mockOfferEntity(array $attributes)
-    {
-        return tap(new OfferEntity(), function ($offer) use ($attributes) {
-            $offer->setName($attributes['name']);
-            $offer->setDescription($attributes['description']);
-            $offer->setType($attributes['type']);
-        });
     }
 }

@@ -27,12 +27,12 @@ class ValidatePromoCodeInteractor implements ValidatePromoCodeInputPort
 
         // for a promo-code to be valid, it needs to have compatible offers.
         if (!$promoCode->hasCompatibleOffers()) {
-            return $this->output->invalid($promoCode);
+            return $this->output->noCompatibleOffer($promoCode);
         }
 
         // an expired promo-code is considered invalid.
         if ($promoCode->getRoot()->isExpired()) {
-            return $this->output->invalid($promoCode);
+            return $this->output->expired($promoCode);
         }
 
         return $this->output->valid($promoCode);

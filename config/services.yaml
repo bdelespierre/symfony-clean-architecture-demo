@@ -21,5 +21,46 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    # -------------------------------------------------------------------------
+    # Infrastructure
+    # -------------------------------------------------------------------------
+
+    # makes classes in infrastructure/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    Infrastructure\:
+        resource: '../infrastructure/'
+
+    Infrastructure\Service\Api\EkwaTestClient:
+        arguments:
+            $baseUri: 'https://601025826c21e10017050013.mockapi.io/ekwatest'
+
+    # -------------------------------------------------------------------------
+    # Domain
+    # -------------------------------------------------------------------------
+
+    # makes classes in domain/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    Domain\:
+        resource: '../domain/'
+        exclude:
+            - '../domain/Model'
+            - '../domain/Contract'
+
+    # default domain contracts implementations
+    Domain\Contract\OfferRepository: '@Infrastructure\Persistence\Api\OfferRepository'
+    Domain\Contract\PromoCodeRepository: '@Infrastructure\Persistence\Api\PromoCodeRepository'
+
+    # -------------------------------------------------------------------------
+    # Use Case / Validate Promo Code
+    # -------------------------------------------------------------------------
+
+    use_cases.validate_promo_code.cli_interactor:
+        class: Domain\UseCase\ValidatePromoCode\ValidatePromoCodeInteractor
+        autowire: false
+        arguments:
+            $output: '@App\Adapter\Presenter\ValidatePromoCodeCliPresenter'
+            $promoCodes: '@Domain\Contract\PromoCodeRepository'
+
+    App\Console\Command\ValidatePromoCodeCommand:
+        arguments:
+            $interactor: '@use_cases.validate_promo_code.cli_interactor'
